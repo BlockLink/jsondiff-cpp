@@ -23,6 +23,10 @@ namespace jsondiff
 
 	typedef fc::variant JsonValue;
 
+	typedef fc::variants JsonArray;
+
+	typedef fc::mutable_variant_object JsonObject;
+
 	inline bool is_scalar_json_value_type(JsonValueType json_value_type)
 	{
 		return json_value_type == JVT_NULL || json_value_type == JVT_INTEGER

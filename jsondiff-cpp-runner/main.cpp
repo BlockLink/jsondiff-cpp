@@ -20,6 +20,21 @@ int main()
 	}
 	{
 		JsonDiff json_diff;
+		auto origin = "null";
+		auto result = "{\"a\":true,\"b\":\"hello\"}";
+		auto diff_result = json_diff.diff_by_string(std::string(origin), std::string(result));
+		auto diff_result_str = diff_result->pretty_str();
+		std::cout << diff_result_str << std::endl;
+		auto patched = json_diff.patch_by_string(origin, diff_result);
+		std::cout << "patched: " << json_dumps(patched) << std::endl;
+		assert(json_dumps(patched) == json_dumps(json_loads(result)));
+
+		auto rollbacked = json_diff.rollback_by_string(result, diff_result);
+		std::cout << "rollbacked: " << json_dumps(rollbacked) << std::endl;
+		assert(json_dumps(rollbacked) == json_dumps(json_loads(origin)));
+	}
+	{
+		JsonDiff json_diff;
 		auto origin = R"({
   "foo": 42,
   "bar": 100,
