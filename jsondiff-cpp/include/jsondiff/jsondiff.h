@@ -25,7 +25,7 @@ namespace jsondiff
 		virtual ~JsonDiff();
 
 
-		DiffResultP diff_by_string(std::string &old_json_str, std::string &new_json_str);
+		DiffResultP diff_by_string(const std::string &old_json_str, const std::string &new_json_str);
 
 		// 如果参数是json字符串，不要直接用下面这个函数，而是json_loads为json对象后调用diff函数，或者直接调用diff_by_string函数
 		// @throws JsonDiffException

@@ -93,7 +93,7 @@ int main()
 		assert(json_dumps(rollbacked) == json_dumps(json_loads(origin)));
 	}
 	int a;
-	std::cout << "press any to exit";
+	std::cout << "press any char and enter to exit";
 	std::cin >> a;
 	return 0;
 }

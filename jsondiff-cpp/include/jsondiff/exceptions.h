@@ -26,7 +26,7 @@ namespace jsondiff
 		{
 			_error_msg = msg;
 		}
-		inline JsonDiffException(std::string &msg)
+		inline JsonDiffException(const std::string &msg)
 		{
 			_error_msg = msg;
 		}

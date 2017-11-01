@@ -20,7 +20,7 @@ namespace jsondiff
 
 	}
 
-	DiffResultP JsonDiff::diff_by_string(std::string &old_json_str, std::string &new_json_str)
+	DiffResultP JsonDiff::diff_by_string(const std::string &old_json_str, const std::string &new_json_str)
 	{
 		return diff(json_loads(old_json_str), json_loads(new_json_str));
 	}
