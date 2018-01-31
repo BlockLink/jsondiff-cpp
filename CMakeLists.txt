@@ -1,19 +1,32 @@
-cmake_minimum_required(VERSION 3.8)
-project(jsondiff_cpp)
+file(GLOB HEADERS "jsondiff-cpp/include/jsondiff/*.h")
 
-set(CMAKE_CXX_STANDARD 11)
+set(SOURCES 
+jsondiff-cpp/jsondiff/diff_result.cpp  
+jsondiff-cpp/jsondiff/helper.cpp  
+jsondiff-cpp/jsondiff/json_value_types.cpp  
+jsondiff-cpp/jsondiff/jsondiff.cpp
+)
 
-set(SOURCE_FILES
-        jsondiff-cpp/jsondiff/diff_result.cpp
-        jsondiff-cpp/jsondiff/helper.cpp
-        jsondiff-cpp/jsondiff/json_value_types.cpp
-        jsondiff-cpp/jsondiff/jsondiff.cpp
-        jsondiff-cpp-runner/main.cpp
-        LICENSE
-        README.md)
+include_directories(jsondiff-cpp/include)
 
-include_directories(jsondiff-cpp/include ../fc/include /usr/local/lib/boost/include)
-link_directories(../fc /usr/local/lib/boost/lib)
-link_libraries(fc boost_system boost_system boost_chrono boost_date_time boost_coroutine boost_context boost_thread boost_filesystem pthread)
+add_library( jsondiff ${SOURCES} ${HEADERS} )
 
-add_executable(jsondiff_cpp ${SOURCE_FILES})
+target_link_libraries( jsondiff 
+  PUBLIC fc)
+target_include_directories( jsondiff 
+  PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/jsondiff-cpp/include"
+)
+
+if (USE_PCH)
+  set_target_properties(jsondiff PROPERTIES COTIRE_ADD_UNITY_BUILD FALSE)
+  cotire(jsondiff)
+endif(USE_PCH)
+
+install( TARGETS
+   jsondiff
+
+   RUNTIME DESTINATION bin
+   LIBRARY DESTINATION lib
+   ARCHIVE DESTINATION lib
+)
+install( FILES ${HEADERS} DESTINATION "jsondiff-cpp/include/jsondiff" )
