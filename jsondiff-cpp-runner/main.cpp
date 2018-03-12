@@ -92,6 +92,19 @@ int main()
 		std::cout << "rollbacked: " << json_dumps(rollbacked) << std::endl;
 		assert(json_dumps(rollbacked) == json_dumps(json_loads(origin)));
 	}
+	{
+		// test big int and big double
+		int64_t a = 6000000000;
+		double b = 1.23456789;
+		const auto& a_json_str = json_dumps(a);
+		const auto& b_json_str = json_dumps(b);
+		auto a_loaded = json_loads(a_json_str);
+		auto b_loaded = json_loads(b_json_str);
+		auto a_type = a_loaded.get_type();
+		assert(a_loaded.is_integer() && a_loaded.as_int64() == a);
+		assert(b_loaded.is_double() && abs(b_loaded.as_double() - b) < 0.0001);
+		std::cout << "big int and big double tests passed" << std::endl;
+	}
 	int a;
 	std::cout << "press any char and enter to exit";
 	std::cin >> a;

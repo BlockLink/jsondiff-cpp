@@ -27,7 +27,7 @@ namespace jsondiff
 
 	typedef fc::mutable_variant_object JsonObject;
 
-	inline bool is_scalar_json_value_type(JsonValueType json_value_type)
+	inline bool is_scalar_json_value_type(const JsonValueType& json_value_type)
 	{
 		return json_value_type == JVT_NULL || json_value_type == JVT_INTEGER
 			|| json_value_type == JVT_FLOAT || json_value_type == JVT_BOOLEAN
@@ -35,17 +35,17 @@ namespace jsondiff
 	}
 
 	// @throws JsonDiffException
-	JsonValueType guess_json_value_type(JsonValue json_data);
+	JsonValueType guess_json_value_type(const JsonValue& json_data);
 	// @throws JsonDiffException
-	JsonValue json_loads(std::string json_str);
-	std::string json_dumps(JsonValue json_value);
-	std::string json_pretty_dumps(JsonValue json_value);
+	JsonValue json_loads(const std::string& json_str);
+	std::string json_dumps(const JsonValue& json_value);
+	std::string json_pretty_dumps(const JsonValue& json_value);
 
-	JsonValue json_deep_clone(JsonValue json_value);
+	JsonValue json_deep_clone(const JsonValue& json_value);
 
-	bool json_has_key(fc::mutable_variant_object json_value, std::string key);
+	bool json_has_key(const JsonObject& json_value, std::string key);
 
-	bool is_scalar_value_diff_format(JsonValue diff_json);
+	bool is_scalar_value_diff_format(const JsonValue& diff_json);
 }
 
 #endif

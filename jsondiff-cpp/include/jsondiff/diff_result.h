@@ -17,7 +17,7 @@ namespace jsondiff
 		bool _is_undefined;
 	public:
 		DiffResult();
-		DiffResult(JsonValue diff_json);
+		DiffResult(const JsonValue& diff_json);
 		virtual ~DiffResult();
 
 		std::string str() const;

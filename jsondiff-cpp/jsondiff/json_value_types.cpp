@@ -3,7 +3,7 @@
 
 namespace jsondiff
 {
-	JsonValueType guess_json_value_type(JsonValue json_data)
+	JsonValueType guess_json_value_type(const JsonValue& json_data)
 	{
 		if (json_data.is_null())
 			return JsonValueType::JVT_NULL;
@@ -23,26 +23,26 @@ namespace jsondiff
 	}
 
 
-	std::string json_dumps(JsonValue json_value)
+	std::string json_dumps(const JsonValue& json_value)
 	{
-		return fc::json::to_string(json_value);
+		return fc::json::to_string(json_value, fc::json::legacy_generator);
 	}
 
-	std::string json_pretty_dumps(JsonValue json_value)
+	std::string json_pretty_dumps(const JsonValue& json_value)
 	{
-		return fc::json::to_pretty_string(json_value);
+		return fc::json::to_pretty_string(json_value, fc::json::legacy_generator);
 	}
 
-	JsonValue json_deep_clone(JsonValue json_value)
+	JsonValue json_deep_clone(const JsonValue& json_value)
 	{
 		return json_loads(json_dumps(json_value));
 	}
 
-	JsonValue json_loads(std::string json_str)
+	JsonValue json_loads(const std::string& json_str)
 	{
 		try
 		{
-			return fc::json::from_string(json_str);
+			return fc::json::from_string(json_str, fc::json::legacy_parser);
 		}
 		catch (std::exception &e)
 		{
@@ -50,12 +50,12 @@ namespace jsondiff
 		}
 	}
 
-	bool json_has_key(fc::mutable_variant_object json_value, std::string key)
+	bool json_has_key(const JsonObject& json_value, std::string key)
 	{
 		return json_value.find(key) != json_value.end();
 	}
 
-	bool is_scalar_value_diff_format(JsonValue diff_json)
+	bool is_scalar_value_diff_format(const JsonValue& diff_json)
 	{
 		if (!diff_json.is_object())
 			return false;
