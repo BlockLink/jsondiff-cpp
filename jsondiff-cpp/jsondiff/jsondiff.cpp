@@ -25,7 +25,7 @@ namespace jsondiff
 		return diff(json_loads(old_json_str), json_loads(new_json_str));
 	}
 
-	DiffResultP JsonDiff::diff(JsonValue old_json, JsonValue new_json)
+	DiffResultP JsonDiff::diff(const JsonValue& old_json, const JsonValue& new_json)
 	{
 		auto old_json_type = guess_json_value_type(old_json);
 		auto new_json_type = guess_json_value_type(new_json);
@@ -161,12 +161,12 @@ namespace jsondiff
 		}
 	}
 
-	JsonValue JsonDiff::patch_by_string(std::string old_json_value, DiffResultP diff_info)
+	JsonValue JsonDiff::patch_by_string(const std::string& old_json_value, DiffResultP diff_info)
 	{
 		return patch(json_loads(old_json_value), diff_info);
 	}
 
-	JsonValue JsonDiff::patch(JsonValue old_json, DiffResultP diff_info)
+	JsonValue JsonDiff::patch(const JsonValue& old_json, const DiffResultP& diff_info)
 	{
 		auto old_json_type = guess_json_value_type(old_json);
 		auto diff_json = diff_info->value();
@@ -264,12 +264,12 @@ namespace jsondiff
 		return result;
 	}
 
-	JsonValue JsonDiff::rollback_by_string(std::string new_json_value, DiffResultP diff_info)
+	JsonValue JsonDiff::rollback_by_string(const std::string& new_json_value, DiffResultP diff_info)
 	{
 		return rollback(json_loads(new_json_value), diff_info);
 	}
 
-	JsonValue JsonDiff::rollback(JsonValue new_json, DiffResultP diff_info)
+	JsonValue JsonDiff::rollback(const JsonValue& new_json, DiffResultP diff_info)
 	{
 		auto new_json_type = guess_json_value_type(new_json);
 		auto diff_json = diff_info->value();
