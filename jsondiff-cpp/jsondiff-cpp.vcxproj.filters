@@ -213,6 +213,12 @@
     <ClInclude Include="include\fjson\vector_fwd.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\fjson\safe.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\array.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsondiff\jsondiff.cpp">

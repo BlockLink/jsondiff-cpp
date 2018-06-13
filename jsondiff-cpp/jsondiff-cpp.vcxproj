@@ -122,6 +122,7 @@
     <ClInclude Include="fjson\utf8\core.h" />
     <ClInclude Include="fjson\utf8\unchecked.h" />
     <ClInclude Include="include\fjson\aligned.hpp" />
+    <ClInclude Include="include\fjson\array.hpp" />
     <ClInclude Include="include\fjson\byteswap.hpp" />
     <ClInclude Include="include\fjson\container\deque.hpp" />
     <ClInclude Include="include\fjson\container\deque_fwd.hpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="include\fjson\reflect\reflect.hpp" />
     <ClInclude Include="include\fjson\reflect\typename.hpp" />
     <ClInclude Include="include\fjson\reflect\variant.hpp" />
+    <ClInclude Include="include\fjson\safe.hpp" />
     <ClInclude Include="include\fjson\shared_ptr.hpp" />
     <ClInclude Include="include\fjson\smart_ref_fwd.hpp" />
     <ClInclude Include="include\fjson\smart_ref_impl.hpp" />
