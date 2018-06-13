@@ -8,10 +8,10 @@
 #include <string>
 #include <memory>
 
-#include <fc/io/json.hpp>
-#include <fc/string.hpp>
-#include <fc/variant.hpp>
-#include <fc/variant_object.hpp>
+#include <fjson/io/json.hpp>
+#include <fjson/string.hpp>
+#include <fjson/variant.hpp>
+#include <fjson/variant_object.hpp>
 
 
 namespace jsondiff
@@ -27,19 +27,19 @@ namespace jsondiff
 
 		DiffResultP diff_by_string(const std::string &old_json_str, const std::string &new_json_str);
 
-		// Èç¹û²ÎÊýÊÇjson×Ö·û´®£¬²»ÒªÖ±½ÓÓÃÏÂÃæÕâ¸öº¯Êý£¬¶øÊÇjson_loadsÎªjson¶ÔÏóºóµ÷ÓÃdiffº¯Êý£¬»òÕßÖ±½Óµ÷ÓÃdiff_by_stringº¯Êý
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½jsonï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÒªÖ±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½json_loadsÎªjsonï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½diffï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½Óµï¿½ï¿½ï¿½diff_by_stringï¿½ï¿½ï¿½ï¿½
 		// @throws JsonDiffException
 		DiffResultP diff(const JsonValue& old_json, const JsonValue& new_json);
 
 		JsonValue patch_by_string(const std::string& old_json_value, DiffResultP diff_info);
 
-		// °Ñ¾É°æ±¾µÄjson,Ê¹ÓÃdiffµÃµ½ÐÂ°æ±¾
+		// ï¿½Ñ¾É°æ±¾ï¿½ï¿½json,Ê¹ï¿½ï¿½diffï¿½Ãµï¿½ï¿½Â°æ±¾
 		// @throws JsonDiffException
 		JsonValue patch(const JsonValue& old_json, const DiffResultP& diff_info);
 
 		JsonValue rollback_by_string(const std::string& new_json_value, DiffResultP diff_info);
 
-		// ´ÓÐÂ°æ±¾Ê¹ÓÃdiff»Ø¹öµ½¾É°æ±¾
+		// ï¿½ï¿½ï¿½Â°æ±¾Ê¹ï¿½ï¿½diffï¿½Ø¹ï¿½ï¿½ï¿½ï¿½É°æ±¾
 		// @throws JsonDiffException
 		JsonValue rollback(const JsonValue& new_json, DiffResultP diff_info);
 

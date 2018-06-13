@@ -25,12 +25,12 @@ namespace jsondiff
 
 	std::string json_dumps(const JsonValue& json_value)
 	{
-		return fc::json::to_string(json_value, fc::json::legacy_generator);
+		return fjson::json::to_string(json_value, fjson::json::legacy_generator);
 	}
 
 	std::string json_pretty_dumps(const JsonValue& json_value)
 	{
-		return fc::json::to_pretty_string(json_value, fc::json::legacy_generator);
+		return fjson::json::to_pretty_string(json_value, fjson::json::legacy_generator);
 	}
 
 	JsonValue json_deep_clone(const JsonValue& json_value)
@@ -42,7 +42,7 @@ namespace jsondiff
 	{
 		try
 		{
-			return fc::json::from_string(json_str, fc::json::legacy_parser);
+			return fjson::json::from_string(json_str, fjson::json::legacy_parser);
 		}
 		catch (std::exception &e)
 		{
@@ -59,7 +59,7 @@ namespace jsondiff
 	{
 		if (!diff_json.is_object())
 			return false;
-		auto diff_json_obj = diff_json.as<fc::mutable_variant_object>();
+		auto diff_json_obj = diff_json.as<fjson::mutable_variant_object>();
 		return json_has_key(diff_json_obj, JSONDIFF_KEY_OLD_VALUE) && json_has_key(diff_json_obj, JSONDIFF_KEY_NEW_VALUE);
 	}
 }

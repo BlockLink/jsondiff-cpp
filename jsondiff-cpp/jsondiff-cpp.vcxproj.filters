@@ -33,6 +33,186 @@
     <ClInclude Include="include\jsondiff\helper.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="fjson\log\console_defines.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="fjson\utf8\checked.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="fjson\utf8\core.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="fjson\utf8\unchecked.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\container\deque.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\container\deque_fwd.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\container\flat.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\container\flat_fwd.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\crypto\base64.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\crypto\bigint.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\crypto\city.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\crypto\hex.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\exception\exception.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\io\console.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\io\enum_type.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\io\iobuffer.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\io\json.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\io\json_relaxed.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\io\raw.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\io\raw_fwd.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\io\raw_unpack_file.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\io\raw_variant.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\io\varint.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\log\appender.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\log\console_appender.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\log\log_message.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\log\logger.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\log\logger_config.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\reflect\reflect.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\reflect\typename.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\reflect\variant.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\thread\future.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\thread\mutex.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\thread\non_preemptable_scope_check.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\thread\priority.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\thread\scoped_lock.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\thread\spin_lock.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\thread\spin_yield_lock.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\thread\unique_lock.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\thread\wait_condition.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\aligned.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\byteswap.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\fwd.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\fwd_impl.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\optional.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\real128.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\shared_ptr.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\smart_ref_fwd.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\smart_ref_impl.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\string.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\thread_d.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\time.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\uint128.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\unique_ptr.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\utf8.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\utility.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\variant.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\variant_object.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\vector.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\vector_fwd.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsondiff\jsondiff.cpp">
@@ -47,5 +227,62 @@
     <ClCompile Include="jsondiff\json_value_types.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="fjson\crypto\base64.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="fjson\crypto\hex.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="fjson\exception.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="fjson\io\console.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="fjson\io\json.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="fjson\io\varint.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="fjson\log\appender.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="fjson\log\console_appender.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="fjson\log\logger.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="fjson\log\logger_config.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="fjson\log\log_message.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="fjson\real128.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="fjson\shared_ptr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="fjson\string.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="fjson\time.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="fjson\uint128.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="fjson\variant.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="fjson\variant_object.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fjson\utf8\utf8cpp.html" />
   </ItemGroup>
 </Project>

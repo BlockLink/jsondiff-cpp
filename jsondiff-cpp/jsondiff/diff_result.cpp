@@ -57,16 +57,16 @@ namespace jsondiff
 		std::stringstream ss;
 		if (is_scalar_json_value_type(diff_json_type))
 		{
-			// »ù±¾ÀàĞÍ
+			// primitive types
 			ss << indents  << " " << json_dumps(_diff_json);
 			return ss.str();
 		}
 		else if (diff_json_type == JsonValueType::JVT_OBJECT)
 		{
-			auto diff_json_obj = _diff_json.as<fc::mutable_variant_object>();
+			auto diff_json_obj = _diff_json.as<fjson::mutable_variant_object>();
 			if (is_scalar_value_diff_format(_diff_json))
 			{
-				// ¾ßÓĞ {__old: ..., __new: ...}¸ñÊ½Ê±
+				// when format as {__old: ..., __new: ...}
 				ss << indents << "-" << json_dumps(diff_json_obj[JSONDIFF_KEY_OLD_VALUE]) << std::endl;
 				ss << indents << "+" << json_dumps(diff_json_obj[JSONDIFF_KEY_NEW_VALUE]) << std::endl;
 				return ss.str();
@@ -75,7 +75,7 @@ namespace jsondiff
 			{
 				auto key = i->key();
 				auto diff_item = i->value();
-				// Èç¹ûkeyÊÇ <key>__deleted »òÕß <key>__added£¬ÔòÊÇÉ¾³ı»òÕßÌí¼Ó£¬·ñÔòÊÇĞŞ¸ÄÏÖÓĞkeyµÄÖµ
+				// å¦‚æœkeyæ˜¯ <key>__deleted æˆ–è€… <key>__addedï¼Œåˆ™æ˜¯åˆ é™¤æˆ–è€…æ·»åŠ ï¼Œå¦åˆ™æ˜¯ä¿®æ”¹ç°æœ‰keyçš„å€¼
 				if (utils::string_ends_with(key, JSONDIFF_KEY_ADDED_POSTFIX) && key.size() > strlen(JSONDIFF_KEY_ADDED_POSTFIX))
 				{
 					auto origin_key = utils::string_without_ext(key, JSONDIFF_KEY_ADDED_POSTFIX);
@@ -88,14 +88,14 @@ namespace jsondiff
 					ss << indents << "\t-" << origin_key << ":" << json_dumps(diff_item) << std::endl;
 					continue;
 				}
-				// ĞŞ¸ÄÏÖÓĞkeyµÄÖµ
+				// ä¿®æ”¹ç°æœ‰keyçš„å€¼
 				ss << indents << "\t" << key << ":" << std::endl << std::make_shared<DiffResult>(diff_item)->pretty_diff_str(indent_count+1) << std::endl;
 			}
 			return ss.str();
 		}
 		else if (diff_json_type == JsonValueType::JVT_ARRAY)
 		{
-			auto diff_json_array = _diff_json.as<fc::variants>();
+			auto diff_json_array = _diff_json.as<fjson::variants>();
 			for (size_t i = 0; i < diff_json_array.size(); i++)
 			{
 				if (!diff_json_array[i].is_array())
@@ -103,7 +103,7 @@ namespace jsondiff
 					ss << indents << "\t " << json_dumps(diff_json_array[i]) << std::endl;
 					continue;
 				}
-				auto diff_item = diff_json_array[i].as<fc::variants>();
+				auto diff_item = diff_json_array[i].as<fjson::variants>();
 				if (diff_item.size() != 3)
 				{
 					ss << indents << "\t " << json_dumps(diff_json_array[i]) << std::endl;
@@ -112,20 +112,20 @@ namespace jsondiff
 				auto op_item = diff_item[0].as_string();
 				auto pos = diff_item[1].as_uint64();
 				auto inner_diff_json = diff_item[2];
-				// FIXME£» Ò»¸öarrayÓĞ¶àÏî±ä»¯µÄÊ±ºò£¬ diffÀïµÄË÷ÒıÊÇÓÃÔ­Ê¼¶ÔÏóµÄindex£¬ËùÒÔÕâÀïÓ¦¸ÃÕÒ³ö pos => old_jsonÖĞÍ¬ÖµµÄpos
+				// FIXMEï¼› ä¸€ä¸ªarrayæœ‰å¤šé¡¹å˜åŒ–çš„æ—¶å€™ï¼Œ diffé‡Œçš„ç´¢å¼•æ˜¯ç”¨åŸå§‹å¯¹è±¡çš„indexï¼Œæ‰€ä»¥è¿™é‡Œåº”è¯¥æ‰¾å‡º pos => old_jsonä¸­åŒå€¼çš„pos
 				if (op_item == std::string("+"))
 				{
-					// Ìí¼ÓÔªËØ
+					// æ·»åŠ å…ƒç´ 
 					ss << indents << "\t+" << json_dumps(inner_diff_json) << std::endl;
 				}
 				else if (op_item == std::string("-"))
 				{
-					// É¾³ıÔªËØ
+					// åˆ é™¤å…ƒç´ 
 					ss << indents << "\t-" << json_dumps(inner_diff_json) << std::endl;
 				}
 				else if (op_item == std::string("~"))
 				{
-					// ĞŞ¸ÄÔªËØ
+					// ä¿®æ”¹å…ƒç´ 
 					ss << indents << "\t~" << std::endl << std::make_shared<DiffResult>(inner_diff_json)->pretty_diff_str(indent_count+1) << std::endl;
 				}
 				else

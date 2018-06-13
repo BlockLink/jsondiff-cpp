@@ -3,10 +3,10 @@
 #include <jsondiff/diff_result.h>
 #include <jsondiff/helper.h>
 
-#include <fc/io/json.hpp>
-#include <fc/string.hpp>
-#include <fc/variant.hpp>
-#include <fc/variant_object.hpp>
+#include <fjson/io/json.hpp>
+#include <fjson/string.hpp>
+#include <fjson/variant.hpp>
+#include <fjson/variant_object.hpp>
 
 namespace jsondiff
 {
@@ -32,13 +32,13 @@ namespace jsondiff
 
 		if (is_scalar_json_value_type(old_json_type) || old_json_type != new_json_type)
 		{
-			// oldÖµÊÇ»ù±¾ÀàĞÍ »òoldºÍnewÖµµÄÀàĞÍ²»Ò»Ñù
+			// oldå€¼æ˜¯åŸºæœ¬ç±»å‹ æˆ–oldå’Œnewå€¼çš„ç±»å‹ä¸ä¸€æ ·
 			// should return undefined for two identical values
 			// should return { __old: <old value>, __new : <new value> } object for two different numbers
 
 			if (old_json_type != new_json_type || json_dumps(old_json) != json_dumps(new_json))
 			{
-				fc::mutable_variant_object result_json;
+				fjson::mutable_variant_object result_json;
 				result_json[JSONDIFF_KEY_OLD_VALUE] = old_json;
 				result_json[JSONDIFF_KEY_NEW_VALUE] = new_json;
 				return std::make_shared<DiffResult>(result_json);
@@ -51,33 +51,33 @@ namespace jsondiff
 		}
 		else if (old_json_type == JsonValueType::JVT_OBJECT)
 		{
-			// oldºÍnew¶¼ÊÇobjectÀàĞÍÊ±
+			// oldå’Œnewéƒ½æ˜¯objectç±»å‹æ—¶
 			// should return undefined for two objects with identical contents
 			// should return undefined for two object hierarchies with identical contents
 			// should return { <key>__deleted: <old value> } when the second object is missing a key
 			// should return { <key>__added: <new value> } when the first object is missing a key
 			// should return { <key>: { __old: <old value>, __new : <new value> } } for two objects with diffent scalar values for a key
 			// should return { <key>: <diff> } with a recursive diff for two objects with diffent values for a key
-			auto a_obj = old_json.as<fc::mutable_variant_object>();
-			auto b_obj = new_json.as<fc::mutable_variant_object>();
+			auto a_obj = old_json.as<fjson::mutable_variant_object>();
+			auto b_obj = new_json.as<fjson::mutable_variant_object>();
 			bool same = false;
-			fc::mutable_variant_object diff_json;
+			fjson::mutable_variant_object diff_json;
 			for (auto i = a_obj.begin(); i != a_obj.end(); i++)
 			{
 				auto a_i_value = i->value();
 				auto a_i_key = i->key();
 				if (b_obj.find(a_i_key) == b_obj.end())
 				{
-					// ´æÔÚÓÚold²»´æÔÚÓÚnew
+					// å­˜åœ¨äºoldä¸å­˜åœ¨äºnew
 					diff_json[a_i_key + JSONDIFF_KEY_DELETED_POSTFIX] = a_i_value;
 				}
 				else
 				{
-					// oldºÍnewÖĞ¶¼ÓĞÕâ¸ökey
+					// oldå’Œnewä¸­éƒ½æœ‰è¿™ä¸ªkey
 					auto sub_diff_value = diff(a_i_value, b_obj[a_i_key]);
-					if (sub_diff_value->is_undefined()) // Ò»ÑùµÄÔªËØ
+					if (sub_diff_value->is_undefined()) // same elements
 						continue;
-					// ĞŞ¸Ä
+					// ä¿®æ”¹
 					diff_json[a_i_key] = sub_diff_value->value();
 				}
 			}
@@ -86,7 +86,7 @@ namespace jsondiff
 				auto key = j->key();
 				if (a_obj.find(key) == a_obj.end())
 				{
-					// ²»´æÔÚÓÚoldµ«ÊÇ´æÔÚÓÚnew
+					// ä¸å­˜åœ¨äºoldä½†æ˜¯å­˜åœ¨äºnew
 					diff_json[key + JSONDIFF_KEY_ADDED_POSTFIX] = j->value();
 				}
 			}
@@ -96,7 +96,7 @@ namespace jsondiff
 		}
 		else if (old_json_type == JsonValueType::JVT_ARRAY)
 		{
-			// oldºÍnew¶¼ÊÇarrayÀàĞÍÊ±
+			// oldå’Œnewéƒ½æ˜¯arrayç±»å‹æ—¶
 			// with arrays of scalars
 			//   should return undefined for two arrays with identical contents
 			//   should return[..., ['-', remove_from_position_index, <removed item>], ...] for two arrays when the second array is missing a value
@@ -108,20 +108,20 @@ namespace jsondiff
 			//   should return[..., ['+', insert_position_index, <added item>], ...] for two arrays when the second array has an extra value
 			//   should return[..., ['~', position_index, <diff>], ...] for two arrays when an item has been modified(note: involves a crazy heuristic)
 
-			auto a_array = old_json.as<fc::variants>();
-			auto b_array = new_json.as<fc::variants>();
+			auto a_array = old_json.as<fjson::variants>();
+			auto b_array = new_json.as<fjson::variants>();
 
-			// TODO: µ±Á½¸öarrayµÄ´ó²¿·ÖÔªËØÏàÍ¬Ê±£¬µ«ÊÇ¿ÉÄÜÇ°·½²åÈë²¿·ÖÔªËØ£¬ÕâÊ±ºòÓ¦¸Ã¾¡Á¿¼õÉÙdiff´óĞ¡
+			// TODO: å½“ä¸¤ä¸ªarrayçš„å¤§éƒ¨åˆ†å…ƒç´ ç›¸åŒæ—¶ï¼Œä½†æ˜¯å¯èƒ½å‰æ–¹æ’å…¥éƒ¨åˆ†å…ƒç´ ï¼Œè¿™æ—¶å€™åº”è¯¥å°½é‡å‡å°‘diffå¤§å°
 
-			// Ò»¸öarrayÓĞ¶àÏî±ä»¯µÄÊ±ºò£¬ diffÀïµÄË÷ÒıÊÇÓÃÔ­Ê¼¶ÔÏóµÄindex
+			// ä¸€ä¸ªarrayæœ‰å¤šé¡¹å˜åŒ–çš„æ—¶å€™ï¼Œ diffé‡Œçš„ç´¢å¼•æ˜¯ç”¨åŸå§‹å¯¹è±¡çš„index
 
-			fc::variants diff_json;
+			fjson::variants diff_json;
 			for (size_t i = 0; i < a_array.size(); i++)
 			{
 				if (i >= b_array.size())
 				{
-					// É¾³ıÔªËØ
-					fc::variants item_diff;
+					// åˆ é™¤å…ƒç´ 
+					fjson::variants item_diff;
 					item_diff.push_back("-");
 					item_diff.push_back(i);
 					item_diff.push_back(a_array[i]);
@@ -130,10 +130,10 @@ namespace jsondiff
 				else
 				{
 					auto item_value_diff = diff(a_array[i], b_array[i]);
-					if (item_value_diff->is_undefined()) // Ã»ÓĞ·¢Éú¸Ä±ä
+					if (item_value_diff->is_undefined()) // æ²¡æœ‰å‘ç”Ÿæ”¹å˜
 						continue;
-					// ĞŞ¸ÄÔªËØ
-					fc::variants item_diff;
+					// ä¿®æ”¹å…ƒç´ 
+					fjson::variants item_diff;
 					item_diff.push_back("~");
 					item_diff.push_back(i);
 					item_diff.push_back(item_value_diff->value());
@@ -142,8 +142,8 @@ namespace jsondiff
 			}
 			for (size_t i = a_array.size(); i < b_array.size(); i++)
 			{
-				// ²»´æÔÚÓÚoldµ«ÊÇ´æÔÚÓÚnewÖĞ
-				fc::variants item_diff;
+				// ä¸å­˜åœ¨äºoldä½†æ˜¯å­˜åœ¨äºnewä¸­
+				fjson::variants item_diff;
 				item_diff.push_back("+");
 				item_diff.push_back(i);
 				item_diff.push_back(b_array[i]);
@@ -178,27 +178,27 @@ namespace jsondiff
 		auto diff_json_str = json_dumps(diff_json);
 		
 		if (is_scalar_json_value_type(old_json_type) || is_scalar_value_diff_format(diff_json))
-		{ // TODO: Õâ¸öÅĞ¶ÏÒªĞŞ¸ÄµÃ¼òµ¥×¼È·Ò»µã£¬ĞŞ¸Ädiffjson¸ñÊ½£¬Çø·Ö{__old: ..., __new: ...}ºÍÆÕÍ¨object diff
+		{ // TODO: è¿™ä¸ªåˆ¤æ–­è¦ä¿®æ”¹å¾—ç®€å•å‡†ç¡®ä¸€ç‚¹ï¼Œä¿®æ”¹diffjsonæ ¼å¼ï¼ŒåŒºåˆ†{__old: ..., __new: ...}å’Œæ™®é€šobject diff
 			if (!diff_json.is_object())
 				throw JsonDiffException("wrong format of diffjson of scalar json value");
 			result = diff_json[JSONDIFF_KEY_NEW_VALUE];
 		}
 		else if (old_json_type == JsonValueType::JVT_OBJECT)
 		{
-			auto old_json_obj = old_json.as<fc::mutable_variant_object>();
-			auto diff_json_obj = diff_json.as<fc::mutable_variant_object>();
-			auto result_obj = result.as<fc::mutable_variant_object>();
+			auto old_json_obj = old_json.as<fjson::mutable_variant_object>();
+			auto diff_json_obj = diff_json.as<fjson::mutable_variant_object>();
+			auto result_obj = result.as<fjson::mutable_variant_object>();
 			for (auto i = diff_json_obj.begin(); i != diff_json_obj.end(); i++)
 			{
 				auto key = i->key();
 				auto diff_item = i->value();
-				// Èç¹ûkeyÊÇ <key>__deleted »òÕß <key>__added£¬ÔòÊÇÉ¾³ı»òÕßÌí¼Ó£¬·ñÔòÊÇĞŞ¸ÄÏÖÓĞkeyµÄÖµ
+				// å¦‚æœkeyæ˜¯ <key>__deleted æˆ–è€… <key>__addedï¼Œåˆ™æ˜¯åˆ é™¤æˆ–è€…æ·»åŠ ï¼Œå¦åˆ™æ˜¯ä¿®æ”¹ç°æœ‰keyçš„å€¼
 				if (utils::string_ends_with(key, JSONDIFF_KEY_DELETED_POSTFIX) && key.size() > strlen(JSONDIFF_KEY_DELETED_POSTFIX))
 				{
 					auto old_key = utils::string_without_ext(key, JSONDIFF_KEY_DELETED_POSTFIX);
 					if (old_json_obj.find(old_key) != old_json_obj.end())
 					{
-						// ÊÇÉ¾³ıÊôĞÔ²Ù×÷
+						// æ˜¯åˆ é™¤å±æ€§æ“ä½œ
 						result_obj.erase(old_key);
 						continue;
 					}
@@ -206,11 +206,11 @@ namespace jsondiff
 				else if (utils::string_ends_with(key, JSONDIFF_KEY_ADDED_POSTFIX) && key.size() > strlen(JSONDIFF_KEY_ADDED_POSTFIX))
 				{
 					auto old_key = utils::string_without_ext(key, JSONDIFF_KEY_ADDED_POSTFIX);
-					// ÊÇÔö¼ÓÊôĞÔ²Ù×÷
+					// æ˜¯å¢åŠ å±æ€§æ“ä½œ
 					result_obj[old_key] = diff_item;
 					continue;
 				}
-				// ¿ÉÄÜÊÇĞŞ¸ÄÏÖÓĞkeyµÄÖµ
+				// å¯èƒ½æ˜¯ä¿®æ”¹ç°æœ‰keyçš„å€¼
 				if (old_json_obj.find(key) == old_json_obj.end())
 					throw JsonDiffException("wrong format of diffjson of this old version json");
 				auto sub_item_new = patch(old_json_obj[key], std::make_shared<DiffResult>(diff_item));
@@ -220,33 +220,33 @@ namespace jsondiff
 		}
 		else if (old_json_type == JsonValueType::JVT_ARRAY)
 		{
-			auto old_json_array = old_json.as<fc::variants>();
-			auto diff_json_array = diff_json.as<fc::variants>();
-			auto result_array = result.as<fc::variants>();
+			auto old_json_array = old_json.as<fjson::variants>();
+			auto diff_json_array = diff_json.as<fjson::variants>();
+			auto result_array = result.as<fjson::variants>();
 			for (size_t i = 0; i < diff_json_array.size(); i++)
 			{
 				if (!diff_json_array[i].is_array())
 					throw JsonDiffException("diffjson format error for array diff");
-				auto diff_item = diff_json_array[i].as<fc::variants>();
+				auto diff_item = diff_json_array[i].as<fjson::variants>();
 				if (diff_item.size() != 3)
 					throw JsonDiffException("diffjson format error for array diff");
 				auto op_item = diff_item[0].as_string();
 				auto pos = diff_item[1].as_uint64();
 				auto inner_diff_json = diff_item[2];
-				// FIXME£» Ò»¸öarrayÓĞ¶àÏî±ä»¯µÄÊ±ºò£¬ diffÀïµÄË÷ÒıÊÇÓÃÔ­Ê¼¶ÔÏóµÄindex£¬ËùÒÔÕâÀïÓ¦¸ÃÕÒ³ö pos => old_jsonÖĞÍ¬ÖµµÄpos
+				// FIXMEï¼› ä¸€ä¸ªarrayæœ‰å¤šé¡¹å˜åŒ–çš„æ—¶å€™ï¼Œ diffé‡Œçš„ç´¢å¼•æ˜¯ç”¨åŸå§‹å¯¹è±¡çš„indexï¼Œæ‰€ä»¥è¿™é‡Œåº”è¯¥æ‰¾å‡º pos => old_jsonä¸­åŒå€¼çš„pos
 				if (op_item == std::string("+"))
 				{
-					// Ìí¼ÓÔªËØ
+					// æ·»åŠ å…ƒç´ 
 					result_array.insert(result_array.begin() + pos, inner_diff_json);
 				}
 				else if (op_item == std::string("-"))
 				{
-					// É¾³ıÔªËØ
+					// åˆ é™¤å…ƒç´ 
 					result_array.erase(result_array.begin() + pos);
 				}
 				else if (op_item == std::string("~"))
 				{
-					// ĞŞ¸ÄÔªËØ
+					// ä¿®æ”¹å…ƒç´ 
 					auto sub_item_new = patch(old_json_array[i], std::make_shared<DiffResult>(inner_diff_json));
 					result_array[pos] = sub_item_new;
 				}
@@ -281,27 +281,27 @@ namespace jsondiff
 		auto diff_json_str = json_dumps(diff_json);
 
 		if (is_scalar_json_value_type(new_json_type) || is_scalar_value_diff_format(diff_json))
-		{ // TODO: Õâ¸öÅĞ¶ÏÒªĞŞ¸ÄµÃ¼òµ¥×¼È·Ò»µã£¬ĞŞ¸Ädiffjson¸ñÊ½£¬Çø·Ö{__old: ..., __new: ...}ºÍÆÕÍ¨object diff
+		{ // TODO: è¿™ä¸ªåˆ¤æ–­è¦ä¿®æ”¹å¾—ç®€å•å‡†ç¡®ä¸€ç‚¹ï¼Œä¿®æ”¹diffjsonæ ¼å¼ï¼ŒåŒºåˆ†{__old: ..., __new: ...}å’Œæ™®é€šobject diff
 			if (!diff_json.is_object())
 				throw JsonDiffException("wrong format of diffjson of scalar json value");
 			result = diff_json[JSONDIFF_KEY_OLD_VALUE];
 		}
 		else if (new_json_type == JsonValueType::JVT_OBJECT)
 		{
-			auto new_json_obj = new_json.as<fc::mutable_variant_object>();
-			auto diff_json_obj = diff_json.as<fc::mutable_variant_object>();
-			auto result_obj = result.as<fc::mutable_variant_object>();
+			auto new_json_obj = new_json.as<fjson::mutable_variant_object>();
+			auto diff_json_obj = diff_json.as<fjson::mutable_variant_object>();
+			auto result_obj = result.as<fjson::mutable_variant_object>();
 			for (auto i = diff_json_obj.begin(); i != diff_json_obj.end(); i++)
 			{
 				auto key = i->key();
 				auto diff_item = i->value();
-				// Èç¹ûkeyÊÇ <key>__deleted »òÕß <key>__added£¬ÔòÊÇÉ¾³ı»òÕßÌí¼Ó£¬·ñÔòÊÇĞŞ¸ÄÏÖÓĞkeyµÄÖµ
+				// å¦‚æœkeyæ˜¯ <key>__deleted æˆ–è€… <key>__addedï¼Œåˆ™æ˜¯åˆ é™¤æˆ–è€…æ·»åŠ ï¼Œå¦åˆ™æ˜¯ä¿®æ”¹ç°æœ‰keyçš„å€¼
 				if (utils::string_ends_with(key, JSONDIFF_KEY_ADDED_POSTFIX) && key.size() > strlen(JSONDIFF_KEY_ADDED_POSTFIX))
 				{
 					auto origin_key = utils::string_without_ext(key, JSONDIFF_KEY_ADDED_POSTFIX);
 					if (new_json_obj.find(origin_key) != new_json_obj.end())
 					{
-						// ÊÇÔö¼ÓÊôĞÔ²Ù×÷£¬ĞèÒª»Ø¹ö
+						// æ˜¯å¢åŠ å±æ€§æ“ä½œï¼Œéœ€è¦å›æ»š
 						result_obj.erase(origin_key);
 						continue;
 					}
@@ -309,11 +309,11 @@ namespace jsondiff
 				else if (utils::string_ends_with(key, JSONDIFF_KEY_DELETED_POSTFIX) && key.size() > strlen(JSONDIFF_KEY_DELETED_POSTFIX))
 				{
 					auto origin_key = utils::string_without_ext(key, JSONDIFF_KEY_DELETED_POSTFIX);
-					// ÊÇÉ¾³ıÊôĞÔ²Ù×÷£¬ĞèÒª»Ø¹ö
+					// æ˜¯åˆ é™¤å±æ€§æ“ä½œï¼Œéœ€è¦å›æ»š
 					result_obj[origin_key] = diff_item;
 					continue;
 				}
-				// ¿ÉÄÜÊÇĞŞ¸ÄÏÖÓĞkeyµÄÖµ
+				// å¯èƒ½æ˜¯ä¿®æ”¹ç°æœ‰keyçš„å€¼
 				if (new_json_obj.find(key) == new_json_obj.end())
 					throw JsonDiffException("wrong format of diffjson of this old version json");
 				auto sub_item_new = rollback(new_json_obj[key], std::make_shared<DiffResult>(diff_item));
@@ -323,33 +323,33 @@ namespace jsondiff
 		}
 		else if (new_json_type == JsonValueType::JVT_ARRAY)
 		{
-			auto new_json_array = new_json.as<fc::variants>();
-			auto diff_json_array = diff_json.as<fc::variants>();
-			auto result_array = result.as<fc::variants>();
+			auto new_json_array = new_json.as<fjson::variants>();
+			auto diff_json_array = diff_json.as<fjson::variants>();
+			auto result_array = result.as<fjson::variants>();
 			for (size_t i = 0; i < diff_json_array.size(); i++)
 			{
 				if (!diff_json_array[i].is_array())
 					throw JsonDiffException("diffjson format error for array diff");
-				auto diff_item = diff_json_array[i].as<fc::variants>();
+				auto diff_item = diff_json_array[i].as<fjson::variants>();
 				if (diff_item.size() != 3)
 					throw JsonDiffException("diffjson format error for array diff");
 				auto op_item = diff_item[0].as_string();
-				auto pos = diff_item[1].as_uint64(); // posÊÇoldµÄpos£¬ FIXME£º ĞÂ¾É¶ÔÏóµÄpos²»Ò»¶¨Ò»Ñù
+				auto pos = diff_item[1].as_uint64(); // posæ˜¯oldçš„posï¼Œ FIXMEï¼š æ–°æ—§å¯¹è±¡çš„posä¸ä¸€å®šä¸€æ ·
 				auto inner_diff_json = diff_item[2];
-				// FIXME£» Ò»¸öarrayÓĞ¶àÏî±ä»¯µÄÊ±ºò£¬ diffÀïµÄË÷ÒıÊÇÓÃÔ­Ê¼¶ÔÏóµÄindex£¬ËùÒÔÕâÀïÓ¦¸ÃÕÒ³ö pos => old_jsonÖĞÍ¬ÖµµÄpos
+				// FIXMEï¼› ä¸€ä¸ªarrayæœ‰å¤šé¡¹å˜åŒ–çš„æ—¶å€™ï¼Œ diffé‡Œçš„ç´¢å¼•æ˜¯ç”¨åŸå§‹å¯¹è±¡çš„indexï¼Œæ‰€ä»¥è¿™é‡Œåº”è¯¥æ‰¾å‡º pos => old_jsonä¸­åŒå€¼çš„pos
 				if (op_item == std::string("-"))
 				{
-					// É¾³ıÔªËØ£¬ĞèÒª»Ø¹ö
+					// åˆ é™¤å…ƒç´ ï¼Œéœ€è¦å›æ»š
 					result_array.insert(result_array.begin() + pos, inner_diff_json);
 				}
 				else if (op_item == std::string("+"))
 				{
-					// Ìí¼ÓÔªËØ£¬ĞèÒª»Ø¹ö
+					// æ·»åŠ å…ƒç´ ï¼Œéœ€è¦å›æ»š
 					result_array.erase(result_array.begin() + pos);
 				}
 				else if (op_item == std::string("~"))
 				{
-					// ĞŞ¸ÄÔªËØ
+					// ä¿®æ”¹å…ƒç´ 
 					auto sub_item_new = rollback(new_json_array[i], std::make_shared<DiffResult>(inner_diff_json));
 					result_array[pos] = sub_item_new;
 				}

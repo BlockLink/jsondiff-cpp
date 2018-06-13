@@ -12,8 +12,8 @@ set(SOURCE_FILES
         LICENSE
         README.md)
 
-include_directories(jsondiff-cpp/include ../fc/include /usr/local/lib/boost/include)
-link_directories(../fc /usr/local/lib/boost/lib)
-link_libraries(fc boost_system boost_system boost_chrono boost_date_time boost_coroutine boost_context boost_thread boost_filesystem pthread)
+include_directories(jsondiff-cpp/include ../fjson/include /usr/local/lib/boost/include)
+link_directories(../fjson /usr/local/lib/boost/lib)
+link_libraries(fjson boost_system boost_system boost_chrono boost_date_time boost_coroutine boost_context boost_thread boost_filesystem pthread)
 
 add_executable(jsondiff_cpp ${SOURCE_FILES})

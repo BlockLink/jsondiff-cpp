@@ -57,7 +57,7 @@ namespace jsondiff
 		}
 		inline virtual void dynamic_rethrow_exception()const
 		{
-			jsondiff::JsonDiffException::dynamic_rethrow_exception();
+			// need implement in sub exception class
 		}
 	};
 }

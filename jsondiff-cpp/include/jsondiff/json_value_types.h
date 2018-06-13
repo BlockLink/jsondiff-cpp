@@ -2,9 +2,9 @@
 #define JSONDIFF_JSON_VALUE_TYPES_H
 
 #include <jsondiff/config.h>
-#include <fc/io/json.hpp>
-#include <fc/variant.hpp>
-#include <fc/variant_object.hpp>
+#include <fjson/io/json.hpp>
+#include <fjson/variant.hpp>
+#include <fjson/variant_object.hpp>
 
 namespace jsondiff
 {
@@ -21,11 +21,11 @@ namespace jsondiff
 		JVT_UNDEFINED = 10
 	};
 
-	typedef fc::variant JsonValue;
+	typedef fjson::variant JsonValue;
 
-	typedef fc::variants JsonArray;
+	typedef fjson::variants JsonArray;
 
-	typedef fc::mutable_variant_object JsonObject;
+	typedef fjson::mutable_variant_object JsonObject;
 
 	inline bool is_scalar_json_value_type(const JsonValueType& json_value_type)
 	{

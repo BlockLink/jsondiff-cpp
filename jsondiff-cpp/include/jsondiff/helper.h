@@ -3,10 +3,10 @@
 
 #include <jsondiff/config.h>
 
-#include <fc/io/json.hpp>
-#include <fc/string.hpp>
-#include <fc/variant.hpp>
-#include <fc/variant_object.hpp>
+#include <fjson/io/json.hpp>
+#include <fjson/string.hpp>
+#include <fjson/variant.hpp>
+#include <fjson/variant_object.hpp>
 
 namespace jsondiff
 {
