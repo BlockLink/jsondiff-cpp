@@ -38,14 +38,14 @@ namespace fjson {
 
       friend safe operator + ( const safe& a, const safe& b )
       {
-          if( b.value > 0 && a.value > (std::numeric_limits<T>::max() - b.value) ) FC_CAPTURE_AND_THROW( overflow_exception, (a)(b) );
-          if( b.value < 0 && a.value < (std::numeric_limits<T>::min() - b.value) ) FC_CAPTURE_AND_THROW( underflow_exception, (a)(b) );
+          if( b.value > 0 && a.value > (std::numeric_limits<T>::max() - b.value) ) FJSON_CAPTURE_AND_THROW( overflow_exception, (a)(b) );
+          if( b.value < 0 && a.value < (std::numeric_limits<T>::min() - b.value) ) FJSON_CAPTURE_AND_THROW( underflow_exception, (a)(b) );
           return safe( a.value + b.value );
       }
       friend safe operator - ( const safe& a, const safe& b )
       {
-          if( b.value > 0 && a.value < (std::numeric_limits<T>::min() + b.value) ) FC_CAPTURE_AND_THROW( underflow_exception, (a)(b) );
-          if( b.value < 0 && a.value > (std::numeric_limits<T>::max() + b.value) ) FC_CAPTURE_AND_THROW( overflow_exception, (a)(b) );
+          if( b.value > 0 && a.value < (std::numeric_limits<T>::min() + b.value) ) FJSON_CAPTURE_AND_THROW( underflow_exception, (a)(b) );
+          if( b.value < 0 && a.value > (std::numeric_limits<T>::max() + b.value) ) FJSON_CAPTURE_AND_THROW( overflow_exception, (a)(b) );
           return safe( a.value - b.value );
       }
 
@@ -55,22 +55,22 @@ namespace fjson {
           {
               if( b.value > 0 )
               {
-                  if( a.value > (std::numeric_limits<T>::max() / b.value) ) FC_CAPTURE_AND_THROW( overflow_exception, (a)(b) );
+                  if( a.value > (std::numeric_limits<T>::max() / b.value) ) FJSON_CAPTURE_AND_THROW( overflow_exception, (a)(b) );
               }
               else
               {
-                  if( b.value < (std::numeric_limits<T>::min() / a.value) ) FC_CAPTURE_AND_THROW( underflow_exception, (a)(b) );
+                  if( b.value < (std::numeric_limits<T>::min() / a.value) ) FJSON_CAPTURE_AND_THROW( underflow_exception, (a)(b) );
               }
           }
           else
           {
               if( b.value > 0 )
               {
-                  if( a.value < (std::numeric_limits<T>::min() / b.value) ) FC_CAPTURE_AND_THROW( underflow_exception, (a)(b) );
+                  if( a.value < (std::numeric_limits<T>::min() / b.value) ) FJSON_CAPTURE_AND_THROW( underflow_exception, (a)(b) );
               }
               else
               {
-                  if( a.value != 0 && b.value < (std::numeric_limits<T>::max() / a.value) ) FC_CAPTURE_AND_THROW( overflow_exception, (a)(b) );
+                  if( a.value != 0 && b.value < (std::numeric_limits<T>::max() / a.value) ) FJSON_CAPTURE_AND_THROW( overflow_exception, (a)(b) );
               }
           }
 
@@ -79,20 +79,20 @@ namespace fjson {
 
       friend safe operator / ( const safe& a, const safe& b )
       {
-          if( b.value == 0 ) FC_CAPTURE_AND_THROW( divide_by_zero_exception, (a)(b) );
-          if( a.value == std::numeric_limits<T>::min() && b.value == -1 ) FC_CAPTURE_AND_THROW( overflow_exception, (a)(b) );
+          if( b.value == 0 ) FJSON_CAPTURE_AND_THROW( divide_by_zero_exception, (a)(b) );
+          if( a.value == std::numeric_limits<T>::min() && b.value == -1 ) FJSON_CAPTURE_AND_THROW( overflow_exception, (a)(b) );
           return safe( a.value / b.value );
       }
       friend safe operator % ( const safe& a, const safe& b )
       {
-          if( b.value == 0 ) FC_CAPTURE_AND_THROW( divide_by_zero_exception, (a)(b) );
-          if( a.value == std::numeric_limits<T>::min() && b.value == -1 ) FC_CAPTURE_AND_THROW( overflow_exception, (a)(b) );
+          if( b.value == 0 ) FJSON_CAPTURE_AND_THROW( divide_by_zero_exception, (a)(b) );
+          if( a.value == std::numeric_limits<T>::min() && b.value == -1 ) FJSON_CAPTURE_AND_THROW( overflow_exception, (a)(b) );
           return safe( a.value % b.value );
       }
 
       safe operator - ()const
       {
-          if( value == std::numeric_limits<T>::min() ) FC_CAPTURE_AND_THROW( overflow_exception, (*this) );
+          if( value == std::numeric_limits<T>::min() ) FJSON_CAPTURE_AND_THROW( overflow_exception, (*this) );
           return safe( -value );
       }
 
