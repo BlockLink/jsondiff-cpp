@@ -1,8 +1,16 @@
 #include <iostream>
 #include <cassert>
 #include <jsondiff/jsondiff.h>
+#include <fjson/io/raw.hpp>
+#include <fjson/reflect/reflect.hpp>
 
 using namespace jsondiff;
+
+struct hello {
+	std::string name;
+	int32_t age;
+};
+FJSON_REFLECT(::hello, (name)(age));
 
 int main()
 {
@@ -104,6 +112,14 @@ int main()
 		assert(a_loaded.is_integer() && a_loaded.as_int64() == a);
 		assert(b_loaded.is_double() && abs(b_loaded.as_double() - b) < 0.0001);
 		std::cout << "big int and big double tests passed" << std::endl;
+	}
+	{
+		hello hi{ "world", 2018 };
+		auto hi_size = fjson::raw::pack_size(hi);
+		auto hi_packed = fjson::raw::pack(hi);
+		hello hi_unpacked;
+		hi_unpacked = fjson::raw::unpack<hello>(hi_packed);
+		std::cout << "hi size: " << hi_size << std::endl;
 	}
 	int a;
 	std::cout << "press any char and enter to exit";

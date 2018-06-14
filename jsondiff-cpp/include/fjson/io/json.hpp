@@ -2,11 +2,11 @@
 #include <fjson/variant.hpp>
 #include <iostream>
 #include <sstream>
+#include <fjson/io/datastream.hpp>
 
 namespace fjson
 {
 	using std::ostream;
-	using std::istream;
 	using std::stringstream;
 
    /**
@@ -35,7 +35,7 @@ namespace fjson
          static ostream& to_stream( ostream& out, const variants& v, output_formatting format = stringify_large_ints_and_doubles );
          static ostream& to_stream( ostream& out, const variant_object& v, output_formatting format = stringify_large_ints_and_doubles );
 
-         static variant  from_stream( istream& in, parse_type ptype = legacy_parser );
+         static variant  from_stream( std::istream& in, parse_type ptype = legacy_parser );
 
          static variant  from_string( const string& utf8_str, parse_type ptype = legacy_parser );
          static variants variants_from_string( const string& utf8_str, parse_type ptype = legacy_parser );

@@ -743,18 +743,18 @@ namespace fjson
 	   return pretty_print(to_string(v, format), 2);
    }
 
-   variant json::from_stream( istream& in, parse_type ptype )
+   variant json::from_stream(std::istream& in, parse_type ptype )
    {
       switch( ptype )
       {
           case legacy_parser:
-              return variant_from_stream<istream, legacy_parser>( in );
+              return variant_from_stream<std::istream, legacy_parser>( in );
           case legacy_parser_with_string_doubles:
-              return variant_from_stream<istream, legacy_parser_with_string_doubles>( in );
+              return variant_from_stream<std::istream, legacy_parser_with_string_doubles>( in );
           case strict_parser:
-              return json_relaxed::variant_from_stream<istream, true>( in );
+              return json_relaxed::variant_from_stream<std::istream, true>( in );
           case relaxed_parser:
-              return json_relaxed::variant_from_stream<istream, false>( in );
+              return json_relaxed::variant_from_stream<std::istream, false>( in );
           default:
               FJSON_ASSERT( false, "Unknown JSON parser type {ptype}", ("ptype", ptype) );
       }

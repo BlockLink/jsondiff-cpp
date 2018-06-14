@@ -219,6 +219,12 @@
     <ClInclude Include="include\fjson\array.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\fjson\io\datastream.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fjson\io\datastream_back.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsondiff\jsondiff.cpp">
@@ -285,6 +291,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="fjson\variant_object.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="fjson\io\datastream.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

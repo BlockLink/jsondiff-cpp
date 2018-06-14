@@ -136,6 +136,8 @@
     <ClInclude Include="include\fjson\fwd.hpp" />
     <ClInclude Include="include\fjson\fwd_impl.hpp" />
     <ClInclude Include="include\fjson\io\console.hpp" />
+    <ClInclude Include="include\fjson\io\datastream.hpp" />
+    <ClInclude Include="include\fjson\io\datastream_back.hpp" />
     <ClInclude Include="include\fjson\io\enum_type.hpp" />
     <ClInclude Include="include\fjson\io\iobuffer.hpp" />
     <ClInclude Include="include\fjson\io\json.hpp" />
@@ -191,6 +193,7 @@
     <ClCompile Include="fjson\crypto\hex.cpp" />
     <ClCompile Include="fjson\exception.cpp" />
     <ClCompile Include="fjson\io\console.cpp" />
+    <ClCompile Include="fjson\io\datastream.cpp" />
     <ClCompile Include="fjson\io\json.cpp" />
     <ClCompile Include="fjson\io\varint.cpp" />
     <ClCompile Include="fjson\log\appender.cpp" />
