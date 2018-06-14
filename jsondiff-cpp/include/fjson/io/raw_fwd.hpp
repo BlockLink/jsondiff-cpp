@@ -10,15 +10,17 @@
 #include <unordered_set>
 #include <unordered_map>
 #include <set>
+#include <boost/filesystem.hpp>
 
 #define MAX_ARRAY_ALLOC_SIZE (1024*1024*10) 
 
 namespace fjson { 
+	typedef boost::filesystem::path path;
    class time_point;
    class time_point_sec;
    class variant;
    class variant_object;
-   class path;
+   // class path;
    template<typename... Types> class static_variant;
 
    template<typename IntType, typename EnumType> class enum_type;
