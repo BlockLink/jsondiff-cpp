@@ -25,7 +25,7 @@ namespace jsondiff
 		return diff(json_loads(old_json_str), json_loads(new_json_str));
 	}
 
-	DiffResultP JsonDiff::diff(JsonValue old_json, JsonValue new_json)
+	DiffResultP JsonDiff::diff(const JsonValue& old_json, const JsonValue& new_json)
 	{
 		auto old_json_type = guess_json_value_type(old_json);
 		auto new_json_type = guess_json_value_type(new_json);
@@ -35,8 +35,19 @@ namespace jsondiff
 			// old值是基本类型 或old和new值的类型不一样
 			// should return undefined for two identical values
 			// should return { __old: <old value>, __new : <new value> } object for two different numbers
-
-			if (old_json_type != new_json_type || json_dumps(old_json) != json_dumps(new_json))
+			if (is_scalar_json_value_type(old_json_type) && old_json_type == new_json_type) {
+				if (json_dumps(old_json) != json_dumps(new_json)) {
+					fc::mutable_variant_object result_json;
+					result_json[JSONDIFF_KEY_OLD_VALUE] = old_json;
+					result_json[JSONDIFF_KEY_NEW_VALUE] = new_json;
+					return std::make_shared<DiffResult>(result_json);
+				}
+				else {
+					// identical scalar values
+					return DiffResult::make_undefined_diff_result();
+				}
+			}
+			else if (old_json_type != new_json_type)
 			{
 				fc::mutable_variant_object result_json;
 				result_json[JSONDIFF_KEY_OLD_VALUE] = old_json;
@@ -161,12 +172,12 @@ namespace jsondiff
 		}
 	}
 
-	JsonValue JsonDiff::patch_by_string(std::string old_json_value, DiffResultP diff_info)
+	JsonValue JsonDiff::patch_by_string(const std::string& old_json_value, DiffResultP diff_info)
 	{
 		return patch(json_loads(old_json_value), diff_info);
 	}
 
-	JsonValue JsonDiff::patch(JsonValue old_json, DiffResultP diff_info)
+	JsonValue JsonDiff::patch(const JsonValue& old_json, const DiffResultP& diff_info)
 	{
 		auto old_json_type = guess_json_value_type(old_json);
 		auto diff_json = diff_info->value();
@@ -264,12 +275,12 @@ namespace jsondiff
 		return result;
 	}
 
-	JsonValue JsonDiff::rollback_by_string(std::string new_json_value, DiffResultP diff_info)
+	JsonValue JsonDiff::rollback_by_string(const std::string& new_json_value, DiffResultP diff_info)
 	{
 		return rollback(json_loads(new_json_value), diff_info);
 	}
 
-	JsonValue JsonDiff::rollback(JsonValue new_json, DiffResultP diff_info)
+	JsonValue JsonDiff::rollback(const JsonValue& new_json, DiffResultP diff_info)
 	{
 		auto new_json_type = guess_json_value_type(new_json);
 		auto diff_json = diff_info->value();

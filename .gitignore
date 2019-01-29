@@ -261,4 +261,10 @@ __pycache__/
 *.pyc
 
 /cmake-build-debug
+/libjsondiff_cpp.a
+/jsondiff_cpp_runner
+/cmake_install.cmake
+/CMakeFiles/
+/CMakeCache.txt
+/Makefile
 

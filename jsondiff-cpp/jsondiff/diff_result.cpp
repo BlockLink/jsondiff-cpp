@@ -10,7 +10,7 @@ namespace jsondiff
 	{
 	}
 
-	DiffResult::DiffResult(JsonValue diff_json) :
+	DiffResult::DiffResult(const JsonValue& diff_json) :
 		_diff_json(diff_json)
 	{
 		if (diff_json.is_null())
@@ -28,12 +28,12 @@ namespace jsondiff
 
 	std::string DiffResult::str() const
 	{
-		return fc::json::to_string(_diff_json);
+		return json_dumps(_diff_json);
 	}
 
 	std::string DiffResult::pretty_str() const
 	{
-		return fc::json::to_pretty_string(_diff_json);
+		return json_pretty_dumps(_diff_json);
 	}
 
 	bool DiffResult::is_undefined() const

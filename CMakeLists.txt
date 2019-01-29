@@ -30,3 +30,4 @@ install( TARGETS
    ARCHIVE DESTINATION lib
 )
 install( FILES ${HEADERS} DESTINATION "jsondiff-cpp/include/jsondiff" )
+
