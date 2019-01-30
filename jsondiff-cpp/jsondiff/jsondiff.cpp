@@ -36,7 +36,21 @@ namespace jsondiff
 			// should return undefined for two identical values
 			// should return { __old: <old value>, __new : <new value> } object for two different numbers
 			if (is_scalar_json_value_type(old_json_type) && old_json_type == new_json_type) {
-				if (json_dumps(old_json) != json_dumps(new_json)) {
+				if (JVT_STRING == old_json_type) {
+					const auto& old_str = old_json.as_string();
+					const auto& new_str = new_json.as_string();
+					if (old_str.size() != new_str.size() || old_str != new_str) {
+						fc::mutable_variant_object result_json;
+						result_json[JSONDIFF_KEY_OLD_VALUE] = old_json;
+						result_json[JSONDIFF_KEY_NEW_VALUE] = new_json;
+						return std::make_shared<DiffResult>(result_json);
+					}
+					else {
+						// identical scalar values
+						return DiffResult::make_undefined_diff_result();
+					}
+				}
+				else if (json_dumps(old_json) != json_dumps(new_json)) {
 					fc::mutable_variant_object result_json;
 					result_json[JSONDIFF_KEY_OLD_VALUE] = old_json;
 					result_json[JSONDIFF_KEY_NEW_VALUE] = new_json;
