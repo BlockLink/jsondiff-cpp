@@ -15,7 +15,7 @@ namespace jsondiff
 			return JsonValueType::JVT_STRING;
 		if (json_data.is_bool())
 			return JsonValueType::JVT_BOOLEAN;
-		if (json_data.is_numeric() && json_data.is_integer())
+		if (json_data.is_numeric() && !json_data.is_integer())
 			return JsonValueType::JVT_FLOAT;
 		if (json_data.is_integer())
 			return JsonValueType::JVT_INTEGER;
